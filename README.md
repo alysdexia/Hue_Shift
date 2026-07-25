@@ -13,7 +13,7 @@ Make a bookmark/favorite with this code as the address:
 
 ### Preview
 Source source site site...  Works on shadow elements too, but not ifranes:  
-<img height=550px alt="Bookmarks" src="https://github.com/user-attachments/assets/2074482e-2e59-4d29-8569-97124603b54d" /><img height=550px alt="Using shadow DOM - Web APIs  MDN" src="https://github.com/user-attachments/assets/24db216b-a282-415b-b7cd-9be1d91cfae2" />
+<img height=420px alt="Bookmarks" src="https://github.com/user-attachments/assets/2074482e-2e59-4d29-8569-97124603b54d" /><img height=420px alt="Using shadow DOM - Web APIs  MDN" src="https://github.com/user-attachments/assets/24db216b-a282-415b-b7cd-9be1d91cfae2" />
 
 ### Development
 * https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color
