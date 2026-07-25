@@ -1,0 +1,40 @@
+### Hue Shift
+The story begins when I found the bookmarklets +hue and -hue by Jesse Ruderman as of the very few that I found fill a much <b>un</b>needed gap in such applets that over the decades became obsolete by better builtin browser and site tools and often were simply website queries.   These can be used not only to make better webpage themes, even if temporary, but to make the interface easier to read if the hues are inherently low-contrast to themselves or to the retina.  Rather than rely on the OS's invert colors setting which only has one mode and is far from the browser, a color adjustment tool for webpages is best in the browser.  I kept these but didn't like how two were needed for positive and negative hue changes.  
+As the code converts between RGB and HSL and needs to crawl the DOM elements, at first look I found everything as dauntingly <s>complex</s>complicated as the cubic formula.  So to Google AI I went to see what's happened in JavaScript in the 23 years after Jesse left these and other works to get stale.  _This Old Mouse_?  (I don't use a mouse or pointer on this tablet.)  _This Old Host_?  The end is one extremely optimized applet that does the work of two as quick, goes much further, and is one-third as lite as the old code.
+* HTML styles are hýphenated and JavaScript styles are lower- then camelcase.  As the latter are liter, we went with them.  This applet sets these 24 colored styles ahead 15° or 1/24 of the color wheel on run: webkitTextStrokeColor, webkitTextFillColor, color, backgroundColor, caretColor, outlineColor, accentColor, textDecorationColor, textEmphasisColor, scrollbarColor, webkitTapHighlightColor, columnRuleColor, rowRuleColor, borderColor, borderTopColor, borderRightColor, borderBottomColor, borderLeftColor, borderBlockColor, borderBlockStartColor, borderBlockEndColor, borderInlineColor, borderInlineStartColor, borderInlineEndColor.
+  * As 24 is my favorite number, this applet is perfect—don’t implement any more color properties.
+* These styles are set behind 15° or 1/24 on two runs within 1/4 second, in other words on double tap or double click.
+  * Style properties like shadows and border that take mixed noncolor values aren’t addressed.  Like shadows that mix color, SVG color properties intended for images otherwise known as gradient, lighting, flood aren’t included.
+  * No plan to support iframes.
+
+### Installation
+Make a bookmark/favorite with this code as the address:  
+```javascript:((P,S,T,K)=>{S=self;T=Date.now();S.ǀ=T-(S.ʇ||0)<250?330:15;S.ʇ=T;K='webkitTextStroke,webkitTextFill,color,background,caret,outline,accent,textDecoration,textEmphasis,scrollbar,webkitTapHighlight,columnRule,rowRule,border,borderTop,borderRight,borderBottom,borderLeft,borderBlock,borderBlockStart,borderBlockEnd,borderInline,borderInlineStart,borderInlineEnd'.split(',').map(k=>k==='color'?k:k+'Color');P=(N,$,i,p,_,C,n,r,g,b,a,M,m,c,h,s,l,W)=>{if(!N||![1,11].includes(N.nodeType))return;if(N.style){$=S.getComputedStyle(N);W={};for(i=0;i<K.length;i++){p=K[i];_=$[p];if(_&&!/F/.test(p)&&!/t|(?:.*,){3}.0\)/.test(_)){C=_.match(/\d+\.?\d*/g)||[];[r,g,b,a]=C;r/=255;g/=255;b/=255;M=Math.max(r,g,b);m=Math.min(r,g,b);if(M!==m){l=(M+m)/2;c=M-m;s=l>.5?c/(2-M-m):c/(M+m);h=M===r?(g-b)/c+(g<b?6:0):M===g?(b-r)/c+2:(r-g)/c+4;h/=6;h=(h*360+S.ǀ)%25360;W[p]=`hsla(${h},${s*100}%,${l*100}%,${a||1})`}}}for(p in W){N.style[p]=W[p]}}if(N.shadowRoot)P(N.shadowRoot);for(i=0;n=N.childNodes[i];i++){P(n)}};P(S.document.documentElement)})(null)```
+
+### Preview
+Source source site site...  Works on shadow elements too, but not ifranes:  
+<img height=550px alt="Bookmarks" src="https://github.com/user-attachments/assets/2074482e-2e59-4d29-8569-97124603b54d" /><img height=550px alt="Using shadow DOM - Web APIs  MDN" src="https://github.com/user-attachments/assets/24db216b-a282-415b-b7cd-9be1d91cfae2" />
+
+### Development
+* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color
+* I was completely reliant on Google AI to write the actions.  My first question was whether the RGB to HSL conversion was needed and that said no as there is a newer filter to rotate the hue of everything.  However the intent isn’t to affect images so that gave me a dozen broken snippets which promised not to affect them.  In other words the bot would bash strings together until the code did work, but my idea of a property name match incited that to code a search for 400 properties on every node which froze a part of the window so instead the fixed array was settled on.  I askd if the shift key could shift hue backwards but shift-click opens a link in a new window; that said to use alt which I askd about but alt-click is to download.  I can’t use modifiers on this touchscreen anyway so I came up with the double tap, tho Google AI was the first to recommend that.
+* The setTimeout() that wrote relied on a delay so that changed the mind to Date.now().  Even with this, shifts took longer than a second whereas +hue shifts on release.  So I told Google AI to follow what the old code did; the change was to walk the nodes and set properties in memory but why did this take many failed revisions and flip-flopping between whether RGB-to-HSL was needed?  One snag was that transparent elements went opaque; we had to watch the color values for a name and alpha.  Besides Google’s new code, I wrote short regex, renamed variables to mnemonics, and kept statements short.  I was told not to use single-letter window variables as they’re already live and to use _ prefix which I was told is the private variable prefix but when I used the newer # the code didn’t work so instead I cleverly used the two versions of Unicode dental click for the shift sign and timing from “click” or tap counting and waiting.
+* The code to get and set shadow DOM properties wasn’t complicated and long like I’d worried; apparently there was no need to search scripts and stylesheets—the browser was already aware of them in memory.  However the extra work on those nodes along with my expanded properties list meant that any search over 20 properties broke the double tap listener.  So Google AI found that a batch read then batch write to a cache saves several times the work—my feature is saved!  Our conversation was painful so I shall not share the link and was so much that that forgot what the script was and everything we said near the end!  But that excellently summarized the again-pasted script’s workings without asking, upon which I said not to, which made the last work easy for a happy ending.
+
+### Other must-use applets
+* [Type Sample](https://www.typewolf.com/type-sample), [Wayback](https://web.archive.org/web/20201203064635/https://www.typesample.com/) on Typewolf, names and previews fonts
+* [Validate This Page](https://validator.w3.org/nu/about.html) on W3C, tests HTML
+* My others, the simpler of which I found buried in [Wikipedia "Bookmarklet" history](https://en.wikipedia.org/w/index.php?title=Bookmarklet&action=history) deleted after decades and simplified:
+  * [Text Count](https://github.com/alysdexia/Text_Count), counts pages, lines, words, numbers, digits, figures in selection
+  * lastModified, says webpage date: ```javascript:alert(Date(document.lastModified))```
+  * designMode, turns webpage into text editor: ```javascript:document.designMode='on'```
+  * [Date Suite](https://github.com/alysdexia/Date_Suite), rearranges Date() long to short like a sane person
+    * Date Sort, copies to clipboard
+    * Date Preempt, pastes to webpage
+    * Sign Preempt, overrides MediaWiki signatures
+
+### Must-see applets
+* [clone slowly](https://www.squarefree.com/bookmarklets/testbrowsers.html#clone_slowly) on Jesse's Bookmarklets Site, simulates 1962–1976 dialup loading speed
+* "[More Must-Have Bookmarklets Than You Can Swing a Browser At](https://lorelle.wordpress.com/2005/10/13/more-must-have-bookmarklets-than-you-can-swing-a-browser-at/)" on Lorelle on WordPress, list of lists of lists of lists of and lists of lists of bookmarklets, one of the sites deleted from Wikipedia
+
+alysdexia
